@@ -1,0 +1,54 @@
+			KL File I/O Library
+			   KLfio  v0.1.0
+			  February 1, 2001
+
+
+READ_COO (fnm, >x, >y, nmax, >n)
+	Read the first two columns of a data file.  Free format.
+
+	character*80 fnm		- filename
+	real*4 x(nmax),y(nmax)	- x and y coordinates
+	nmax				- maximum number of points
+	n				- number of data points
+	
+	call read_coo(fnm, x, y, nmax, n)
+
+READ_ARRAY (fnm, >za, nx, ny)
+	Read a 'nx' by 'ny' table of data to the 'nx' by 'ny' array 'za'.
+
+	IMPORTANT: If the input array is not 'nx' by 'ny', bigger for example,
+	the positioning of the values will not be correct.  The arguments
+	are passed as references.  For example, if the array is 3x3, nx and ny
+	are 2, then za will be 2x2.  Well in memory 'array' is vector of 9 and
+	za is a vector of 4.  Therefore, what is passed back will correspond
+	to the first 4 elements of 'array', or 11,12,13,21 not the expected
+	11,12,21,22.  Since Fortran is crap and forces you to allocate
+	memory before you know what you really need, 'array' is usually much
+	bigger than 'za'.  The solution is to use an input vector instead
+	of the array, then when is comes back rearrange it into the desired
+	array.  Unfortunately you end up using twice the memory.  But here is 
+	a way to rearrange the 'array' itself :
+
+		real array(xmax,ymax)
+	c	nx<xmax , ny<ymax
+		n=nx*ny
+		do 1 j=ny,1,-1
+		do 1 i=nx,1,-1
+		  l=(n-1)/xmax + 1
+		  k=n-(l-1)*xmax
+		  array(i,j)=array(k,l)
+	1	n=n-1
+
+	character*80 fnm		- filename
+	real za(nx,ny)		- array
+	integer nx, ny		- X (columns) and Y (rows) size to the
+					  the table.
+
+WRITE_ARRAY (fnm, za, nx, ny)
+	Write a 'nx' by 'ny' table of data from the array 'za' to the file
+	'fnm'.
+
+	character*80 fnm		- filename
+	real za(nx,ny)		- array
+	integer nx, ny		- X (columns) and Y (rows) size to the
+					  the table.
