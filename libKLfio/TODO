@@ -1,2 +1,3 @@
 - Add some dependency checks to the Makefile
 - shared library?
+- Use UNAME to set OS.

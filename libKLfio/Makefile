@@ -14,8 +14,9 @@ MAKE = make
 GZIP = gzip -S .gz
 
 #### Environment Variable Definitions ####
-OS = macosx
-PREFIX = /Users/klabrie/prgf
+UNAME = `uname -s`
+OS = redhat
+PREFIX = $(HOME)/prgf
 LIBDIR = $(PREFIX)/lib
 
 EPREFIX = $(PREFIX)
@@ -33,7 +34,7 @@ PKGNAME = KLfio
 BASIC_FILES = Makefile Changes TODO test.dat testdef.dat
 DOCS = KLfio.txt
 VERSION = 0
-RELEASE = $(VERSION).1.2
+RELEASE = $(VERSION).1.3
 
 #### Object Definitions ####
 OBJ_LIB = read_coo.o read_array.o write_array.o
