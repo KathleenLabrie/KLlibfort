@@ -1,0 +1,71 @@
+#!/bin/csh
+# To hell with make files! This does what ye olde make file used to do ...
+#
+#     Syntax:   Hell 
+#
+# Compiles .f files newer than library, then updates library.  Handles 
+# case when library doesn't exist (just compile all .f files!). Also 
+# handles the case in which no source files need compiling.
+#
+# Modified from 'Hell' in fbgk programs - main modifications are (i) no
+# main program to link, and (ii) 'sundir' renamed 'libdir'.
+
+set debug
+set okdoit
+
+set dir0 = `pwd`
+set linuxdir = "."
+#set libdir = "../Sun"
+set libdir = $linuxdir
+set sourcedir = $linuxdir
+
+set EXTRA = " "
+
+set libnm = CJP.a
+
+set compilestring = "g77 -O3 -c "
+
+# First get list of relevant .f files more recent than library. Uses the
+# "find -newer" command option. If library doesn't exist, then compile *all*
+# source files!
+
+cd $sourcedir
+
+if (-e TEMP1) \rm TEMP1
+if (-e TEMP2) \rm TEMP2
+
+if (-e $libdir/$libnm) then
+  find . -name \*.f -newer $libdir/$libnm -print > TEMP1
+else
+  ls -1t *.f >TEMP1
+endif
+
+# Construct a source file containing all the compile commands; execute;
+# then update library ... The "grep -v" will get rid of files in sub-
+# directories of the current ones.
+
+set nnn = `wc -l TEMP1 | awk '{print $1}'`
+if ($nnn != 0) then
+  cat TEMP1 | sed "s[\./[[" | sed "s/^/$compilestring /" | grep -v "/" > TEMP2
+  if ($?debug) echo "Compile steps as follows ..."
+  if ($?debug) cat TEMP2
+  if ($?okdoit) source TEMP2
+  if ($?debug) echo " "
+  if ($?debug) echo "Updating library" $libdir/$libnm "..."
+  if (-e $libdir/$libnm) then
+    if ($?okdoit) ar rv $libdir/$libnm *.o
+  else
+    if ($?okdoit) ar rcv $libdir/$libnm *.o
+  endif
+  if ($?okdoit) ranlib $libdir/$libnm
+  if ($?okdoit) \rm -f *.o
+else
+  if ($?debug) echo " "
+  echo "Library " $libdir/$libnm "is up-to-date; no .f files need compiling."
+endif
+
+if ($?okdoit) \rm TEMP*
+
+echo "Done."
+
+exit
