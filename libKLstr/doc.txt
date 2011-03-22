@@ -1,0 +1,17 @@
+LENGTH (string)
+	Returns the true length of a string.
+	
+	l = length(str)
+
+RSUBSTR (string, substring)
+	Returns the last occurence of 'substring' in string.
+
+	locc = rsubstr(str, substr)
+
+	e.g. Extract file extension
+
+	  ind=rsubstr(filename,'.')
+	  lname=length(filename)
+	  ext=filename(ind:lname)
+	  lext=length(ext)
+	  write(*,*) 'Extension is ',ext(1:lext)
