@@ -1,3 +1,7 @@
 19 Sept. 2001: [v0.1.1]
 	- Changes to Makefile.
 	- 
+
+27 March 2006: [v0.1.2]
+	Improve the installation rules.  Run ranlib on installed library.
+	Add include statements for gcc4.0 (printf).

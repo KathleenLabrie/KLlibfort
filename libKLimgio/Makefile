@@ -12,7 +12,7 @@
 #
 # Coding languages: Fortran, C
 # Compilers: g77, gcc
-# OS: RedHat Linux
+# OS: RedHat Linux, Mac OS X
 #
 ################################################################
 
@@ -20,14 +20,15 @@ MAKE = make
 GZIP = gzip -S .gz
 
 #### Environment Variable Definitions ####
-OS = redhat
-PREFIX = /home/labrie/prgf
+OS = macosx
+PREFIX = /Users/klabrie/prgf
 LIBDIR = $(PREFIX)/lib
 
-EPREFIX = $(PREFIX)/img
-LPREFIX = $(PREFIX)
+EPREFIX = $(PREFIX)
+LPREFIX = $(EPREFIX)
+SPREFIX = $(EPREFIX)/lib/src
 
-C_PREFIX = /home/labrie/prgc
+C_PREFIX = /Users/klabrie/prgc
 C_INCLDIR = $(C_PREFIX)/include
 C_LIBDIR = $(C_PREFIX)/lib
 
@@ -44,7 +45,7 @@ PKGNAME = KLimgio
 BASIC_FILES = Makefile Changes TODO
 DOCS = doc.txt
 VERSION = 0
-RELEASE = $(VERSION).1.1
+RELEASE = $(VERSION).1.2
 
 #### Object Definitions ####
 #FOBJ_LIBS = fits_read_r4.o fits_write_r4.o
@@ -76,8 +77,19 @@ lib$(PKGNAME).a: $(OBJECTS)
 all : main
 
 ## Installing ##
-install :
+.PHONY: install-lib install-src
+install : install-lib
+install-all : install-lib install-src
+
+install-lib :
+	install -d -m 0755 $(LPREFIX)/lib
 	install -m 0644 lib$(PKGNAME).a $(LPREFIX)/lib
+	ranlib $(LPREFIX)/lib/lib$(PKGNAME).a
+
+install-src :
+	install -d -m 0755 $(SPREFIX)/$(PKGNAME)
+	install -m 0644 $(SRC) $(BASIC_FILES) $(DOCS) \
+                $(SPREFIX)/$(PKGNAME)/
 
 ## Packaging ##
 package-src :
