@@ -1,0 +1,3 @@
+- finish writing 'fits_write_r4'
+- write documentation
+- add checks for required libraries in Makefile
