@@ -20,15 +20,16 @@ MAKE = make
 GZIP = gzip -S .gz
 
 #### Environment Variable Definitions ####
-OS = macosx
-PREFIX = /Users/klabrie/prgf
+UNAME = `uname -s`
+OS = redhat
+PREFIX = $(HOME)/prgf
 LIBDIR = $(PREFIX)/lib
 
 EPREFIX = $(PREFIX)
 LPREFIX = $(EPREFIX)
 SPREFIX = $(EPREFIX)/lib/src
 
-C_PREFIX = /Users/klabrie/prgc
+C_PREFIX = $(HOME)/prgc
 C_INCLDIR = $(C_PREFIX)/include
 C_LIBDIR = $(C_PREFIX)/lib
 
@@ -45,7 +46,7 @@ PKGNAME = KLimgio
 BASIC_FILES = Makefile Changes TODO
 DOCS = doc.txt
 VERSION = 0
-RELEASE = $(VERSION).1.2
+RELEASE = $(VERSION).1.3
 
 #### Object Definitions ####
 #FOBJ_LIBS = fits_read_r4.o fits_write_r4.o
