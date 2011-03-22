@@ -16,8 +16,9 @@ MAKE = make
 GZIP = gzip -S .gz
 
 #### Environment Variable Definitions ####
-OS = macosx
-PREFIX = /Users/klabrie/prgf
+UNAME = `uname -s`
+OS = redhat
+PREFIX = $(HOME)/prgf
 LIBDIR = $(PREFIX)/lib
 
 EPREFIX = $(PREFIX)
@@ -35,7 +36,7 @@ PKGNAME = NR
 BASIC_FILES = Makefile Changes TODO
 DOCS = doc.txt
 VERSION = 0
-RELEASE = $(VERSION).1.2
+RELEASE = $(VERSION).1.3
 
 #### Object Definitions ####
 OBJ_LIB = covsrt.o gaussj.o mrqcof.o mrqmin.o
