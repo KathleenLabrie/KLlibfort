@@ -1,0 +1,4 @@
+19 Sept. 2001: [v0.1.1]
+	- Changes to Makefile
+22 Feb. 2006: [v0.1.2]
+	- Added install-src and install-all to Makefile.
